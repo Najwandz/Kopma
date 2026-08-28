@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Seleksi Anggota KOPMA</title>
+    <!-- Menghubungkan ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Pengumuman Seleksi Anggota Baru</h1>
+        <p>Koperasi Mahasiswa (KOPMA) Universitas Siliwangi Tahun 2026</p>
+    </header>
+
+    <div class="container">
+        <div class="card" id="searchCard">
+            <h2 style="margin-bottom: 20px;">Cek Status Kelulusan</h2>
+            
+            <div class="form-group">
+                <label for="noPeserta">Nomor Pendaftaran / NIM</label>
+                <input type="text" id="noPeserta" placeholder="Masukkan Nomor Pendaftaran (contoh: 24001)" autocomplete="off">
+            </div>
+
+            <button class="btn-submit" id="btnCek">Lihat Hasil</button>
+
+            <!-- Container Hasil -->
+            <div id="resultContainer" class="result-box">
+                <h2 id="resultTitle"></h2>
+                <p id="resultMessage"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 IT Division KOPMA. All Rights Reserved.
+    </footer>
+
+    <!-- Audio Element memanggil file lokal -->
+    <audio id="bgMusic" src="Lagu_Kopma.mp3" preload="auto"></audio>
+
+    <!-- Menghubungkan ke file JS eksternal -->
+    <script src="script.js"></script>
+</body>
+</html>
