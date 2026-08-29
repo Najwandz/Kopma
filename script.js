@@ -1,6 +1,6 @@
 /* === JAVASCRIPT LOGIKA KELULUSAN === */
 
-// Database Peserta dengan atribut tambahan
+// Database Peserta 
 const dataPeserta = [
     { id: "001", nama: "Najwan Dzimar", lulus: true, nra: "K-26-001", nilai: 92 },
     { id: "002", nama: "Eriz", lulus: false, nra: "-", nilai: 65 },
@@ -22,20 +22,21 @@ const resultTitle = document.getElementById('resultTitle');
 const resultMessage = document.getElementById('resultMessage');
 const bgMusic = document.getElementById('bgMusic');
 
-// Navigasi Layar 0 ke Layar 1
+// Navigasi Slide 1 ke Slide 2
 btnMulai.addEventListener('click', () => {
     welcomeScreen.classList.add('hidden');
     openingScreen.classList.remove('hidden');
     
-    // --> LAGU MULAI DIPUTAR DI SINI (Hanya sekali) <--
+    // --> MUSIK KOPMA MULAI BERPUTAR DI SLIDE 2 <--
     bgMusic.play().catch(e => console.log("Audio terblokir:", e));
 });
 
-// Navigasi Layar 1 ke Layar 2 (Lagu tetap menyala)
+// Navigasi Slide 2 ke Slide 3
 btnLanjut.addEventListener('click', () => {
     openingScreen.classList.add('hidden');
     searchScreen.classList.remove('hidden');
     
+    // Musik dibiarkan berlanjut secara natural
     // Auto fokus ke input setelah layar berganti
     setTimeout(() => inputPeserta.focus(), 100);
 });
@@ -60,7 +61,6 @@ function cekKelulusan() {
         return;
     }
 
-    // Reset UI untuk class hidden (TIDAK ADA LAGI PERINTAH PAUSE LAGU, lagu akan terus berjalan)
     resultContainer.className = "result-box hidden"; 
 
     // Cari data
@@ -90,7 +90,7 @@ function cekKelulusan() {
                 <a href="https://chat.whatsapp.com/GantiDenganLinkAsli" target="_blank" class="btn-wa">Gabung Grup WhatsApp</a>
             `;
         } else {
-            // SKENARIO TIDAK LULUS (Lagu tetap berlanjut)
+            // SKENARIO GAGAL / TIDAK LULUS (Musik tetap berlanjut)
             resultContainer.classList.add('failed');
             resultTitle.innerHTML = "MOHON MAAF";
             
@@ -101,7 +101,9 @@ function cekKelulusan() {
             `;
         }
     } else {
-        // DATA TIDAK DITEMUKAN (Lagu tetap berlanjut)
+        // DATA TIDAK DITEMUKAN (Musik dimatikan sesuai aturan awal)
+        bgMusic.pause();
+
         resultContainer.classList.add('not-found');
         resultTitle.innerHTML = "DATA TIDAK DITEMUKAN 🔍";
         resultMessage.innerHTML = `

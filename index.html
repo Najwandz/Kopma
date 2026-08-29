@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengumuman DIKSAR KOPMA 2026</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Library untuk efek hiasan 🎉 (Confetti) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <!-- LAYAR 1: Opening Screen -->
-    <div id="openingScreen" class="container active">
+    <div id="welcomeScreen" class="container">
+        <div class="card opening-card">
+            <div class="icon-kopma">🏢</div>
+            <h1>Pemberitahuan</h1>
+            <p>
+                Selamat datang. Silakan klik tombol di bawah ini untuk masuk ke 
+                halaman pengumuman kelulusan KOPMA.
+            </p>
+            <button id="btnMulai" class="btn-primary">Lanjutkan ke Pengumuman</button>
+        </div>
+    </div>
+
+    <div id="openingScreen" class="container hidden">
         <div class="card opening-card">
             <div class="icon-kopma">🎓</div>
             <h1>Halo, Calon Anggota KOPMA!</h1>
@@ -28,7 +38,6 @@
         </div>
     </div>
 
-    <!-- LAYAR 2: Search & Result Screen (Sembunyi di awal) -->
     <div id="searchScreen" class="container hidden">
         <div class="card">
             <h2>Cek Kelulusan DIKSAR</h2>
@@ -40,7 +49,6 @@
 
             <button class="btn-primary" id="btnCek">Lihat Hasil</button>
 
-            <!-- Container Hasil -->
             <div id="resultContainer" class="result-box hidden">
                 <h2 id="resultTitle"></h2>
                 <div id="resultMessage"></div>
@@ -52,7 +60,6 @@
         &copy; 2026 IT Division KOPMA. Crafted with Passion.
     </footer>
 
-    <!-- Audio Element -->
     <audio id="bgMusic" src="Lagu_Kopma.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
