@@ -8,25 +8,34 @@ const dataPeserta = [
 ];
 
 // Inisialisasi DOM Elements
+const welcomeScreen = document.getElementById('welcomeScreen');
 const openingScreen = document.getElementById('openingScreen');
 const searchScreen = document.getElementById('searchScreen');
-const btnLanjut = document.getElementById('btnLanjut');
 
+const btnMulai = document.getElementById('btnMulai');
+const btnLanjut = document.getElementById('btnLanjut');
 const btnCek = document.getElementById('btnCek');
+
 const inputPeserta = document.getElementById('noPeserta');
 const resultContainer = document.getElementById('resultContainer');
 const resultTitle = document.getElementById('resultTitle');
 const resultMessage = document.getElementById('resultMessage');
 const bgMusic = document.getElementById('bgMusic');
 
-// Navigasi dari Opening ke Search
+// Navigasi Layar 0 ke Layar 1
+btnMulai.addEventListener('click', () => {
+    welcomeScreen.classList.add('hidden');
+    openingScreen.classList.remove('hidden');
+    
+    // --> LAGU MULAI DIPUTAR DI SINI (Hanya sekali) <--
+    bgMusic.play().catch(e => console.log("Audio terblokir:", e));
+});
+
+// Navigasi Layar 1 ke Layar 2 (Lagu tetap menyala)
 btnLanjut.addEventListener('click', () => {
     openingScreen.classList.add('hidden');
     searchScreen.classList.remove('hidden');
     
-    // Memutar musik KOPMA saat tombol Lanjut ditekan
-    bgMusic.play().catch(e => console.log("Audio terblokir:", e));
-
     // Auto fokus ke input setelah layar berganti
     setTimeout(() => inputPeserta.focus(), 100);
 });
@@ -43,7 +52,7 @@ function tembakConfetti() {
 
 // Fungsi utama cek kelulusan
 function cekKelulusan() {
-    // Ambil input user dan ubah ke huruf kecil untuk menghindari error kapital/kecil
+    // Ambil input user dan ubah ke huruf kecil
     const query = inputPeserta.value.trim().toLowerCase();
 
     if (query === "") {
@@ -51,10 +60,10 @@ function cekKelulusan() {
         return;
     }
 
-    // Reset UI untuk class hidden (TIDAK ADA LAGI PERINTAH RESET/PAUSE LAGU DI SINI)
+    // Reset UI untuk class hidden (TIDAK ADA LAGI PERINTAH PAUSE LAGU, lagu akan terus berjalan)
     resultContainer.className = "result-box hidden"; 
 
-    // Cari data (Cocokkan ID/NPM -atau- Nama)
+    // Cari data
     const peserta = dataPeserta.find(p => 
         p.id.toLowerCase() === query || 
         p.nama.toLowerCase() === query
@@ -63,13 +72,9 @@ function cekKelulusan() {
     resultContainer.classList.remove('hidden');
 
     if (peserta) {
-        // --- JIKA DATA DITEMUKAN ---
-        // Memastikan lagu tetap bermain (melanjutkan lagu dari layar pembuka)
-        bgMusic.play().catch(e => console.log("Audio terblokir:", e));
-
         if (peserta.lulus) {
             // SKENARIO LULUS
-            tembakConfetti(); // Munculkan hiasan
+            tembakConfetti(); 
             resultContainer.classList.add('success');
             resultTitle.innerHTML = "🎉 SELAMAT! ANDA LULUS 🎉";
             
@@ -85,7 +90,7 @@ function cekKelulusan() {
                 <a href="https://chat.whatsapp.com/GantiDenganLinkAsli" target="_blank" class="btn-wa">Gabung Grup WhatsApp</a>
             `;
         } else {
-            // SKENARIO TIDAK LULUS
+            // SKENARIO TIDAK LULUS (Lagu tetap berlanjut)
             resultContainer.classList.add('failed');
             resultTitle.innerHTML = "MOHON MAAF";
             
@@ -96,10 +101,7 @@ function cekKelulusan() {
             `;
         }
     } else {
-        // --- JIKA DATA TIDAK DITEMUKAN ---
-        // Sesuai permintaan: LAGU DIHENTIKAN JIKA NAMA TIDAK ADA
-        bgMusic.pause(); 
-
+        // DATA TIDAK DITEMUKAN (Lagu tetap berlanjut)
         resultContainer.classList.add('not-found');
         resultTitle.innerHTML = "DATA TIDAK DITEMUKAN 🔍";
         resultMessage.innerHTML = `
