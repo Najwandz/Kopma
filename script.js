@@ -36,7 +36,7 @@ btnMulai.addEventListener('click', () => {
 btnLanjut.addEventListener('click', () => {
     // Ambil input kode, hapus spasi di awal/akhir, dan jadikan huruf besar semua 
     const inputKode = inputKodeAkses.value.trim().toUpperCase();
-    const kodeRahasia = "K0PM4 J4Y4"; // <-- KODE TELAH DIGANTI DI SINI
+    const kodeRahasia = "KOPMA JAYA"; // <-- KODE TELAH DIGANTI DI SINI
 
     if (inputKode === kodeRahasia) {
         // Jika kode benar, pindah layar
