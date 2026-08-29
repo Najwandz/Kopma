@@ -3,44 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengumuman Seleksi Anggota KOPMA</title>
-    <!-- Menghubungkan ke file CSS eksternal -->
+    <title>Pengumuman DIKSAR KOPMA 2026</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Library untuk efek hiasan 🎉 (Confetti) -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-    <header>
-        <h1>Pengumuman Seleksi Anggota Baru</h1>
-        <p>Koperasi Mahasiswa (KOPMA) Universitas Siliwangi Tahun 2026</p>
-    </header>
+    <!-- LAYAR 1: Opening Screen -->
+    <div id="openingScreen" class="container active">
+        <div class="card opening-card">
+            <div class="icon-kopma">🎓</div>
+            <h1>Halo, Calon Anggota KOPMA!</h1>
+            <p>
+                Tidak terasa rangkaian Pendidikan Dasar Perkoperasian telah selesai dilaksanakan. 
+                Terima kasih atas semangat, dedikasi, dan antusiasme luar biasa yang telah kalian berikan 
+                selama proses seleksi.
+            </p>
+            <p>
+                Kini tiba saatnya untuk melihat hasil dari perjuangan kalian. 
+                Siap untuk mengetahui hasilnya?
+            </p>
+            <button id="btnLanjut" class="btn-primary">Lanjut Cek Pengumuman</button>
+        </div>
+    </div>
 
-    <div class="container">
-        <div class="card" id="searchCard">
-            <h2 style="margin-bottom: 20px;">Cek Status Kelulusan</h2>
+    <!-- LAYAR 2: Search & Result Screen (Sembunyi di awal) -->
+    <div id="searchScreen" class="container hidden">
+        <div class="card">
+            <h2>Cek Kelulusan DIKSAR</h2>
+            <p class="subtitle">Masukkan Nama Lengkap atau NPM/ID Anda</p>
             
             <div class="form-group">
-                <label for="noPeserta">Nomor Pendaftaran / NIM</label>
-                <input type="text" id="noPeserta" placeholder="Masukkan Nomor Pendaftaran (contoh: 24001)" autocomplete="off">
+                <input type="text" id="noPeserta" placeholder="Contoh: 001 atau Najwan" autocomplete="off">
             </div>
 
-            <button class="btn-submit" id="btnCek">Lihat Hasil</button>
+            <button class="btn-primary" id="btnCek">Lihat Hasil</button>
 
             <!-- Container Hasil -->
-            <div id="resultContainer" class="result-box">
+            <div id="resultContainer" class="result-box hidden">
                 <h2 id="resultTitle"></h2>
-                <p id="resultMessage"></p>
+                <div id="resultMessage"></div>
             </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 IT Division KOPMA. All Rights Reserved.
+        &copy; 2026 IT Division KOPMA. Crafted with Passion.
     </footer>
 
-    <!-- Audio Element memanggil file lokal -->
+    <!-- Audio Element -->
     <audio id="bgMusic" src="Lagu_Kopma.mp3" preload="auto"></audio>
 
-    <!-- Menghubungkan ke file JS eksternal -->
     <script src="script.js"></script>
 </body>
 </html>

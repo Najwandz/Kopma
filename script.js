@@ -1,13 +1,17 @@
-/* === JAVASCRIPT / LOGIKA === */
+/* === JAVASCRIPT LOGIKA KELULUSAN === */
 
-// Database dummy dengan Nama dan Status Kelulusan
+// Database Peserta dengan atribut tambahan
 const dataPeserta = [
-    { id: "001", nama: "Najwan Dzimar", lulus: true },
-    { id: "002", nama: "Asep Sunandar", lulus: true },
-    { id: "003", nama: "Siti Aminah", lulus: false } // Contoh tidak lulus
+    { id: "001", nama: "Najwan Dzimar", lulus: true, nra: "K-26-001", nilai: 92 },
+    { id: "002", nama: "Eriz", lulus: false, nra: "-", nilai: 65 },
+    { id: "003", nama: "Alya", lulus: true, nra: "K-26-003", nilai: 88 }
 ];
 
-// Inisialisasi Elemen DOM
+// Inisialisasi DOM Elements
+const openingScreen = document.getElementById('openingScreen');
+const searchScreen = document.getElementById('searchScreen');
+const btnLanjut = document.getElementById('btnLanjut');
+
 const btnCek = document.getElementById('btnCek');
 const inputPeserta = document.getElementById('noPeserta');
 const resultContainer = document.getElementById('resultContainer');
@@ -15,54 +19,94 @@ const resultTitle = document.getElementById('resultTitle');
 const resultMessage = document.getElementById('resultMessage');
 const bgMusic = document.getElementById('bgMusic');
 
-// Fungsi untuk mengeksekusi pengecekan
-function cekKelulusan() {
-    const noPesertaValue = inputPeserta.value.trim();
+// Navigasi dari Opening ke Search
+btnLanjut.addEventListener('click', () => {
+    openingScreen.classList.add('hidden');
+    searchScreen.classList.remove('hidden');
+    // Auto fokus ke input setelah layar berganti
+    setTimeout(() => inputPeserta.focus(), 100);
+});
 
-    // Validasi input kosong
-    if (noPesertaValue === "") {
-        alert("Harap masukkan nomor pendaftaran terlebih dahulu!");
+// Fungsi memicu Confetti (Hiasan 🎉)
+function tembakConfetti() {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#0f4c81', '#f9a826', '#10b981']
+    });
+}
+
+// Fungsi utama cek kelulusan
+function cekKelulusan() {
+    // Ambil input user dan ubah ke huruf kecil untuk menghindari error kapital/kecil
+    const query = inputPeserta.value.trim().toLowerCase();
+
+    if (query === "") {
+        alert("Harap masukkan Nama atau NPM terlebih dahulu!");
         return;
     }
 
-    // Memutar musik SAAT TOMBOL DIKLIK (Syarat mutlak dari browser)
-    bgMusic.currentTime = 0; 
-    bgMusic.play().catch(error => {
-        console.warn("Autoplay diblokir oleh browser:", error);
-    });
+    // Reset UI dan hentikan lagu setiap klik baru
+    resultContainer.className = "result-box hidden"; 
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
 
-    // Reset class container hasil agar animasi bisa diulang
-    resultContainer.className = "result-box"; 
-    resultContainer.style.display = "block";
+    // Cari data (Cocokkan ID/NPM -atau- Nama)
+    const peserta = dataPeserta.find(p => 
+        p.id.toLowerCase() === query || 
+        p.nama.toLowerCase() === query
+    );
 
-    // Mencari data peserta berdasarkan ID yang diinput
-    const peserta = dataPeserta.find(p => p.id === noPesertaValue);
+    resultContainer.classList.remove('hidden');
 
     if (peserta) {
-        // Jika ID ditemukan di database
+        // --- JIKA DATA DITEMUKAN ---
+        // Putar lagu karena data valid (terdaftar)
+        bgMusic.play().catch(e => console.log("Audio terblokir:", e));
+
         if (peserta.lulus) {
-            // Skenario Lulus
+            // SKENARIO LULUS
+            tembakConfetti(); // Munculkan hiasan
             resultContainer.classList.add('success');
-            resultTitle.innerHTML = "SELAMAT! ANDA DINYATAKAN LULUS";
-            resultMessage.innerHTML = `Selamat, <b>${peserta.nama}</b> (Nomor: ${peserta.id}) telah lulus seleksi dan resmi menjadi anggota KOPMA. Silakan pantau grup WhatsApp untuk informasi selanjutnya.`;
+            resultTitle.innerHTML = "🎉 SELAMAT! ANDA LULUS 🎉";
+            
+            resultMessage.innerHTML = `
+                <p>Selamat, perjuanganmu membuahkan hasil! Kamu resmi bergabung menjadi keluarga besar KOPMA.</p>
+                <ul class="data-list">
+                    <li>Nama <span>${peserta.nama}</span></li>
+                    <li>NPM / ID <span>${peserta.id}</span></li>
+                    <li>NRA <span>${peserta.nra}</span></li>
+                    <li>Nilai Akhir <span>${peserta.nilai}</span></li>
+                </ul>
+                <p style="margin-top:15px; font-size:0.9rem;">Segera bergabung ke dalam grup komunikasi resmi anggota baru di bawah ini:</p>
+                <a href="https://chat.whatsapp.com/GantiDenganLinkAsli" target="_blank" class="btn-wa">Gabung Grup WhatsApp</a>
+            `;
         } else {
-            // Skenario Tidak Lulus
+            // SKENARIO TIDAK LULUS
             resultContainer.classList.add('failed');
-            resultTitle.innerHTML = "MOHON MAAF, ANDA TIDAK LULUS";
-            resultMessage.innerHTML = `Mohon maaf <b>${peserta.nama}</b> (Nomor: ${peserta.id}), kamu belum berhasil lolos pada seleksi kali ini. Jangan patah semangat dan coba lagi di kesempatan berikutnya!`;
+            resultTitle.innerHTML = "MOHON MAAF";
+            
+            resultMessage.innerHTML = `
+                <p>Halo <b>${peserta.nama}</b>,</p>
+                <p style="margin-top:10px;">Mohon maaf, berdasarkan rekapitulasi penilaian, kamu belum berhasil lolos pada seleksi kali ini (Nilai: <b>${peserta.nilai}</b>).</p>
+                <p style="margin-top:10px;">Terima kasih atas partisipasimu. Jangan patah semangat, teruslah berkembang di luar sana!</p>
+            `;
         }
     } else {
-        // Jika ID tidak ada di database sama sekali
-        resultContainer.classList.add('failed');
-        resultTitle.innerHTML = "DATA TIDAK DITEMUKAN";
-        resultMessage.innerHTML = `Nomor pendaftaran <b>${noPesertaValue}</b> tidak terdaftar dalam sistem kami. Harap periksa kembali nomor yang Anda masukkan.`;
+        // --- JIKA DATA TIDAK DITEMUKAN ---
+        // Sesuai permintaan: TIDAK ADA LAGU, TIDAK ADA GRUP
+        resultContainer.classList.add('not-found');
+        resultTitle.innerHTML = "DATA TIDAK DITEMUKAN 🔍";
+        resultMessage.innerHTML = `
+            <p>Nama atau NPM/ID <b>"${inputPeserta.value}"</b> tidak terdaftar di sistem kami.</p>
+            <p style="margin-top:10px; font-size:0.9rem;">Pastikan penulisan nama atau angka sudah benar (contoh: Najwan atau 001). Jika merasa ini kesalahan, hubungi panitia.</p>
+        `;
     }
 }
 
-// Event Listener saat tombol diklik
+// Event Listeners
 btnCek.addEventListener('click', cekKelulusan);
-
-// Fitur tambahan: Tekan "Enter" pada keyboard untuk mencari
 inputPeserta.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         event.preventDefault();
