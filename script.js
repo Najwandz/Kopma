@@ -16,6 +16,7 @@ const btnMulai = document.getElementById('btnMulai');
 const btnLanjut = document.getElementById('btnLanjut');
 const btnCek = document.getElementById('btnCek');
 
+const inputKodeAkses = document.getElementById('kodeAkses'); // Tambahan elemen kode akses
 const inputPeserta = document.getElementById('noPeserta');
 const resultContainer = document.getElementById('resultContainer');
 const resultTitle = document.getElementById('resultTitle');
@@ -31,14 +32,23 @@ btnMulai.addEventListener('click', () => {
     bgMusic.play().catch(e => console.log("Audio terblokir:", e));
 });
 
-// Navigasi Slide 2 ke Slide 3
+// Navigasi Slide 2 ke Slide 3 (Dengan Verifikasi Kode)
 btnLanjut.addEventListener('click', () => {
-    openingScreen.classList.add('hidden');
-    searchScreen.classList.remove('hidden');
-    
-    // Musik dibiarkan berlanjut secara natural
-    // Auto fokus ke input setelah layar berganti
-    setTimeout(() => inputPeserta.focus(), 100);
+    // Ambil input kode, hapus spasi di awal/akhir, dan jadikan huruf besar semua 
+    const inputKode = inputKodeAkses.value.trim().toUpperCase();
+    const kodeRahasia = "K0PM4 J4Y4"; // <-- KODE TELAH DIGANTI DI SINI
+
+    if (inputKode === kodeRahasia) {
+        // Jika kode benar, pindah layar
+        openingScreen.classList.add('hidden');
+        searchScreen.classList.remove('hidden');
+        
+        // Auto fokus ke input setelah layar berganti
+        setTimeout(() => inputPeserta.focus(), 100);
+    } else {
+        // Jika kode salah
+        alert("Kode akses salah atau kosong! Silakan periksa kembali atau hubungi panitia.");
+    }
 });
 
 // Fungsi memicu Confetti (Hiasan 🎉)

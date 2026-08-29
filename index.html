@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengumuman DIKSAR KOPMA 2026</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Library untuk efek hiasan 🎉 (Confetti) -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
+    <!-- SLIDE 1: Pemberitahuan -->
     <div id="welcomeScreen" class="container">
         <div class="card opening-card">
             <div class="icon-kopma">🏢</div>
@@ -21,6 +23,7 @@
         </div>
     </div>
 
+    <!-- SLIDE 2: Halo Calon Anggota (Musik akan berputar saat layar ini muncul) -->
     <div id="openingScreen" class="container hidden">
         <div class="card opening-card">
             <div class="icon-kopma">🎓</div>
@@ -34,10 +37,17 @@
                 Kini tiba saatnya untuk melihat hasil dari perjuangan kalian. 
                 Siap untuk mengetahui hasilnya?
             </p>
+            
+            <!-- TAMBAHAN: Form Input Kode Akses -->
+            <div class="form-group" style="margin-top: 20px;">
+                <input type="text" id="kodeAkses" placeholder="Masukkan Kode Akses" autocomplete="off">
+            </div>
+
             <button id="btnLanjut" class="btn-primary">Lanjut Cek Pengumuman</button>
         </div>
     </div>
 
+    <!-- SLIDE 3: Cek Kelulusan (Musik berlanjut tanpa putus) -->
     <div id="searchScreen" class="container hidden">
         <div class="card">
             <h2>Cek Kelulusan DIKSAR</h2>
@@ -49,6 +59,7 @@
 
             <button class="btn-primary" id="btnCek">Lihat Hasil</button>
 
+            <!-- Container Hasil -->
             <div id="resultContainer" class="result-box hidden">
                 <h2 id="resultTitle"></h2>
                 <div id="resultMessage"></div>
@@ -60,6 +71,7 @@
         &copy; 2026 IT Division KOPMA. Crafted with Passion.
     </footer>
 
+    <!-- Audio Element -->
     <audio id="bgMusic" src="Lagu_Kopma.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
