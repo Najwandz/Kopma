@@ -23,6 +23,10 @@ const bgMusic = document.getElementById('bgMusic');
 btnLanjut.addEventListener('click', () => {
     openingScreen.classList.add('hidden');
     searchScreen.classList.remove('hidden');
+    
+    // Memutar musik KOPMA saat tombol Lanjut ditekan
+    bgMusic.play().catch(e => console.log("Audio terblokir:", e));
+
     // Auto fokus ke input setelah layar berganti
     setTimeout(() => inputPeserta.focus(), 100);
 });
@@ -47,10 +51,8 @@ function cekKelulusan() {
         return;
     }
 
-    // Reset UI dan hentikan lagu setiap klik baru
+    // Reset UI untuk class hidden (TIDAK ADA LAGI PERINTAH RESET/PAUSE LAGU DI SINI)
     resultContainer.className = "result-box hidden"; 
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
 
     // Cari data (Cocokkan ID/NPM -atau- Nama)
     const peserta = dataPeserta.find(p => 
@@ -62,7 +64,7 @@ function cekKelulusan() {
 
     if (peserta) {
         // --- JIKA DATA DITEMUKAN ---
-        // Putar lagu karena data valid (terdaftar)
+        // Memastikan lagu tetap bermain (melanjutkan lagu dari layar pembuka)
         bgMusic.play().catch(e => console.log("Audio terblokir:", e));
 
         if (peserta.lulus) {
@@ -95,7 +97,9 @@ function cekKelulusan() {
         }
     } else {
         // --- JIKA DATA TIDAK DITEMUKAN ---
-        // Sesuai permintaan: TIDAK ADA LAGU, TIDAK ADA GRUP
+        // Sesuai permintaan: LAGU DIHENTIKAN JIKA NAMA TIDAK ADA
+        bgMusic.pause(); 
+
         resultContainer.classList.add('not-found');
         resultTitle.innerHTML = "DATA TIDAK DITEMUKAN 🔍";
         resultMessage.innerHTML = `
